@@ -1,57 +1,42 @@
-0 创建命名空间  flr 
+## 创建命名空间  flr 
 
 kubectl create ns  flr 
 
-1 创建集群角色绑定
+## 创建集群角色绑定
 
 kubectl apply -f flr-rbac.yaml 
 
-
-2 创建filebeat的配置文件 
+## 创建filebeat的配置文件 
 
 kubectl create cm flr-filebeat-config --from-file=./filebeat.yaml  --namespace=flr
 
-或者
+**或者**
 
 kubectl apply -f flr-filebeat-configmap.yaml 
 
-
-3 部署flr-redis 服务
+## 部署flr-redis 服务
 
 kubectl apply -f flr-redis.yaml 
 
-4 部署flr-filebeat.yaml  
+## 部署flr-filebeat.yaml  
 
 kubectl apply -f flr-filebeat.yaml 
 
-
-
-5 部署flr-logstash服务
-
-
+## 部署flr-logstash服务
 
 kubectl create cm flr-logstash-config --from-file=./logstash.conf  --namespace=flr
 
-或者
+**或者**
 
 kubectl apply -f flr-logstash-configmap.yaml
-kubectl apply -f flr-logstashyml-configmap.yaml
 
+kubectl apply -f flr-logstashyml-configmap.yaml
 
 kubectl apply -f flr-logstash.yaml
 
 
-
-
-
-
-
-
-
-
-
-------------------
-
+如何给logstash自定义时间字段
+```
 input { stdin { } }
 filter {
 #ruby {
@@ -80,5 +65,5 @@ code => "event.set('day', (event.get('@timestamp').time.localtime + 8*60*60).str
 output {
 stdout { codec=> rubydebug }
 }
-------------------
+```
 
