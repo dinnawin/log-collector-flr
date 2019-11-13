@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  logstash.yml: |
+    ---
+
+kind: ConfigMap
+metadata:
+  labels:
+    app: flr-logstashyml
+  name: flr-logstashyml-config
+  namespace: flr

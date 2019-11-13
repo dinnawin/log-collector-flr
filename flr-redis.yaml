@@ -1,0 +1,40 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flr-redis
+  namespace: flr
+spec:
+  ports:
+  - port: 6379
+  selector:
+    app: flr-redis
+  clusterIP: None
+
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: flr-redis
+  namespace: flr
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: flr-redis
+    spec:
+      containers:
+      - image: redis:3.0
+        name: redis
+        ports:
+        - containerPort: 6379
+          name: redis
+        resources:
+          limits:
+            cpu: 200m
+            memory: 2048Mi
+          requests:
+            cpu: 200m
+            memory: 2048Mi

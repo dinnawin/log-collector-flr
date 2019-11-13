@@ -1,0 +1,141 @@
+apiVersion: v1
+data:
+  filebeat.yml: |
+    filebeat.inputs:
+      - type: docker
+        containers.ids:
+        - '*'
+        processors:
+        - add_kubernetes_metadata:
+            in_cluster: true
+    
+    output.redis:
+      hosts: '${REDIS_HOSTS:flr-redis:6379}'
+      keys:
+        - key: "bbpf-system"
+          when.contains:
+            kubernetes.container.name: "bbpf-system"
+        - key: "boss-api"
+          when.contains:
+            kubernetes.container.name: "boss-api"
+        - key: "local-system"
+          when.contains:
+            kubernetes.container.name: "local-system"
+        - key: "rrq-statis-history"
+          when.contains:
+            kubernetes.container.name: "rrq-statis-history"
+        - key: "vems-adapter"
+          when.contains:
+            kubernetes.container.name: "vems-adapter"
+        - key: "vems-api"
+          when.contains:
+            kubernetes.container.name: "vems-api"
+        - key: "vems-boss-common-goods"
+          when.contains:
+            kubernetes.container.name: "vems-boss-common-goods"
+        - key: "vems-boss-goods-center"
+          when.contains:
+            kubernetes.container.name: "vems-boss-goods-center"
+        - key: "vems-boss-manager"
+          when.contains:
+            kubernetes.container.name: "vems-boss-manager"
+        - key: "vems-boss-open-way"
+          when.contains:
+            kubernetes.container.name: "vems-boss-open-way"
+        - key: "vems-console-api"
+          when.contains:
+            kubernetes.container.name: "vems-console-api"
+        - key: "vems-content"
+          when.contains:
+            kubernetes.container.name: "vems-content"
+        - key: "vems-data-analysis"
+          when.contains:
+            kubernetes.container.name: "vems-data-analysis"
+        - key: "vems-dispatch"
+          when.contains:
+            kubernetes.container.name: "vems-dispatch"
+        - key: "vems-finance"
+          when.contains:
+            kubernetes.container.name: "vems-finance"
+        - key: "vems-inventory-adapter"
+          when.contains:
+            kubernetes.container.name: "vems-inventory-adapter"
+        - key: "vems-membership"
+          when.contains:
+            kubernetes.container.name: "vems-membership"
+        - key: "vems-merchandise"
+          when.contains:
+            kubernetes.container.name: "vems-merchandise"
+        - key: "vems-mqmanagement"
+          when.contains:
+            kubernetes.container.name: "vems-mqmanagement"
+        - key: "vems-onlinemall"
+          when.contains:
+            kubernetes.container.name: "vems-onlinemall"
+        - key: "vems-openapi"
+          when.contains:
+            kubernetes.container.name: "vems-openapi"
+        - key: "vems-openmanager"
+          when.contains:
+            kubernetes.container.name: "vems-openmanager"
+        - key: "vems-operation-manager"
+          when.contains:
+            kubernetes.container.name: "vems-operation-manager"
+        - key: "vems-operator"
+          when.contains:
+            kubernetes.container.name: "vems-operator"
+        - key: "vems-order"
+          when.contains:
+            kubernetes.container.name: "vems-order"
+        - key: "vems-pay"
+          when.contains:
+            kubernetes.container.name: "vems-pay"
+        - key: "vems-portal"
+          when.contains:
+            kubernetes.container.name: "vems-portal"
+        - key: "vems-presale"
+          when.contains:
+            kubernetes.container.name: "vems-presale"
+        - key: "vems-promotion"
+          when.contains:
+            kubernetes.container.name: "vems-promotion"
+        - key: "vems-sale"
+          when.contains:
+            kubernetes.container.name: "vems-sale"
+        - key: "vems-statistic"
+          when.contains:
+            kubernetes.container.name: "vems-statistic"
+        - key: "vems-tenant"
+          when.contains:
+            kubernetes.container.name: "vems-tenant"
+        - key: "vems-tenant-center"
+          when.contains:
+            kubernetes.container.name: "vems-tenant-center"
+        - key: "vems-third-party-communicate"
+          when.contains:
+            kubernetes.container.name: "vems-third-party-communicate"
+        - key: "vems-vendingmachine"
+          when.contains:
+            kubernetes.container.name: "vems-vendingmachine"
+        - key: "vems-wechat"
+          when.contains:
+            kubernetes.container.name: "vems-wechat"
+        - key: "vems-workorderservice"
+          when.contains:
+            kubernetes.container.name: "vems-workorderservice"
+        - key: "vems-unicorn-api"
+          when.contains:
+            kubernetes.container.name: "vems-unicorn-api"
+        - key: "vems-unicorn-pay"
+          when.contains:
+            kubernetes.container.name: "vems-unicorn-pay"
+      db: 0
+      timeout: 10
+
+kind: ConfigMap
+metadata:
+  labels:
+    app: flr-filebeat
+  name: flr-filebeat-config
+  namespace: flr
+  
